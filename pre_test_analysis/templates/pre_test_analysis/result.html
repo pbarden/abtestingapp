@@ -1,0 +1,141 @@
+{% extends "pre_test_analysis/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Pre-Test Analysis Result{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Pre-Test Analysis Results</h1>
+
+    <div class="card-row single">
+        <div class="neu-card">
+            <h2>Overview</h2>
+            <div class="gradient-stripe"></div>
+            <div class="container">
+                <p><strong>Weekly Visitors:</strong> <span id="weeklyVisitors">{{ result.weekly_visitors }}</span></p>
+                <p><strong>Weekly Conversions:</strong> <span id="weeklyConversions">{{ result.weekly_conversions }}</span></p>
+                <p><strong>Base Conversion Rate:</strong> <span id="baseConversionRate" data-rate="{{ result.conversion_rate }}"></span>%</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-row double">
+        <div class="neu-card">
+            <h2>Weekly MDEs</h2>
+            <div class="gradient-stripe"></div>
+            <ul id="mdeList"></ul>
+        </div>
+        <div class="neu-card">
+            <h2>Anticipated CR</h2>
+            <div class="gradient-stripe"></div>
+            <ul id="anticipatedLiftList"></ul>
+        </div>
+    </div>        
+    <div class="container chart-container neu-card">
+        <canvas id="mdeChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<style>
+    @media (min-width:769px) {
+        .chart-container {
+            padding: 20px 130px 60px;
+        }
+    }
+    ul {
+        list-style-type: none;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function formatAsPercentage(decimalValue) {
+            return (decimalValue * 100).toFixed(2);
+        }
+
+        var baseConversionRate = parseFloat(document.getElementById('baseConversionRate').getAttribute('data-rate'));
+        document.getElementById('baseConversionRate').textContent = formatAsPercentage(baseConversionRate);
+        var mdeValues = {{ result.weekly_mdes|safe }};
+        var baseConversionRate = parseFloat("{{ result.conversion_rate }}");
+        var baseConversionRatePercent = baseConversionRate * 100;
+
+        var mdeList = document.getElementById('mdeList');
+        var anticipatedLiftList = document.getElementById('anticipatedLiftList');
+
+        mdeValues.forEach(function(value, index) {
+            var listItem = document.createElement('li');
+            var valuePercent = value * 100;
+            listItem.innerHTML = '<strong>Week ' + (index + 1) + '</strong>: ' + valuePercent.toFixed(3) + '%';
+            mdeList.appendChild(listItem);
+
+            var newConversionRate = baseConversionRatePercent + valuePercent;
+            var lift = newConversionRate - baseConversionRatePercent;
+
+            var liftListItem = document.createElement('li');
+            liftListItem.innerHTML = '<strong>Week ' + (index + 1) + '</strong>: ' + newConversionRate.toFixed(3) + '%';
+            anticipatedLiftList.appendChild(liftListItem);
+        });
+    });
+    var ctx = document.getElementById('mdeChart').getContext('2d');
+    var mdeValues = {{ result.weekly_mdes|safe }};
+    var mdePercentages = mdeValues.map(value => value * 100);
+
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+            datasets: [{
+                label: 'MDE',
+                data: mdePercentages,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return value.toFixed(2) + '%';
+                        }
+                    }
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                        return data.datasets[tooltipItem.datasetIndex].label + ': ' + value.toFixed(2) + '%';
+                    }
+                }
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var baseConversionRateElement = document.getElementById('baseConversionRate');
+    var baseConversionRate = parseFloat(baseConversionRateElement.getAttribute('data-rate')) * 100; 
+
+    var mdeListItems = document.getElementById('mdeList').getElementsByTagName('li');
+
+    for (var i = 0; i < mdeListItems.length; i++) {
+        var mdeValue = parseFloat(mdeListItems[i].innerText.split(': ')[1].replace('%', ''));
+        var value1 = baseConversionRate;
+        var value2 = baseConversionRate + mdeValue; 
+
+        var percentageDifference = calculatePercentageDifference(value1, value2);
+
+        mdeListItems[i].innerHTML += ' (+' + percentageDifference + '%)';
+    }
+});
+
+function calculatePercentageDifference(value1, value2) {
+    var difference = value2 - value1;
+    var percentageDifference = (difference / Math.abs(value1)) * 100;
+    return percentageDifference.toFixed(3); 
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "post_test_analysis/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Post-Test Analysis{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 700px!important;">
+    <h1>Post-Test Analysis</h1>
+    <section class="neu-form">
+        <div class="neu-form-card" style="padding:40px 10%;">    
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.test_duration.errors %}
+                            <div class="error">{{ form.test_duration.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_test_duration">Test Duration</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="test_duration" id="id_test_duration" min="0" class="neu-input" value="{{ form.test_duration.value|default_if_none:'' }}">
+                        </div>
+                    </div>                
+                </div>
+
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.control_visitors.errors %}
+                            <div class="error">{{ form.control_visitors.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_control_visitors">Control Visitors</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="control_visitors" id="id_control_visitors" min="0" class="neu-input" value="{{ form.control_visitors.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.control_conversions.errors %}
+                            <div class="error">{{ form.control_conversions.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_control_conversions">Control Conversions</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="control_conversions" id="id_control_conversions" min="0" class="neu-input" value="{{ form.control_conversions.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.variant_visitors.errors %}
+                            <div class="error">{{ form.variant_visitors.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_variant_visitors">Variant Visitors</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="variant_visitors" id="id_variant_visitors" min="0" class="neu-input" value="{{ form.variant_visitors.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.variant_conversions.errors %}
+                            <div class="error">{{ form.variant_conversions.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_variant_conversions">Variant Conversions</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="variant_conversions" id="id_variant_conversions" min="0" class="neu-input" value="{{ form.variant_conversions.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="neu-button">Analyze</button>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

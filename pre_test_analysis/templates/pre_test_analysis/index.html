@@ -1,0 +1,47 @@
+{% extends "pre_test_analysis/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Pre-Test Analysis{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 700px;">
+    <h1>Pre-Test Analysis</h1>
+    <section class="neu-form">
+        <div class="neu-form-card" style="padding:40px 10%;">    
+            <form method="post" class="neu-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.weekly_visitors.errors %}
+                            <div class="error">{{ form.weekly_visitors.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_weekly_visitors">Weekly Visitors</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="weekly_visitors" id="id_weekly_visitors" min="0" class="neu-input" value="{{ form.weekly_visitors.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="main container">
+                        {% if form.weekly_conversions.errors %}
+                            <div class="error">{{ form.weekly_conversions.errors.as_text }}</div>
+                        {% endif %}
+                        <div class="column left-column left-form-label">
+                            <label for="id_weekly_conversions">Weekly Conversions</label>
+                        </div>
+                        <div class="column right-column right-form-field">
+                            <input type="number" name="weekly_conversions" id="id_weekly_conversions" min="0" class="neu-input" value="{{ form.weekly_conversions.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="neu-button">Analyze</button>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

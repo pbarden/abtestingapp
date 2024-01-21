@@ -1,0 +1,1062 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--text-color); 
+    background-color: var(--background-color); 
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+:root {
+    --primary-color: #001731; 
+    --secondary-color: #0070F0; 
+    --tertiary-color: #003673; 
+    --tertiary-dark: #002857; 
+    --contrast-color: #fff; 
+    --contrast-color: #fff; 
+    --text-color: #333; 
+    --background-color: #e0e0e0; 
+    --neu-shadow-dark: #a3a3a3;
+    --neu-shadow-light: #ffffff;
+    --neu-highlight: #292929;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+p {
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+::selection {
+    color: var(--contrast-color);
+    background-color: var(--primary-color);
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.main.container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+}
+
+.hero.container {
+    display: block;
+}
+
+.full-width-container {
+    width: 100%;
+    min-height: 500px;
+    padding: 50px 0px;
+} 
+
+.column {
+    width: 48%; 
+}
+
+@media screen and (max-width: 768px) {
+    .column {
+        width: 100%;
+    }
+}
+
+.neu-button {
+    background-color: var(--background-color);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 8px 8px 15px var(--neu-shadow-dark), 
+                -8px -8px 15px var(--neu-shadow-light);
+    color: var(--primary-color);
+    padding: 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    margin: 10px; 
+}
+
+.button-dark {
+    box-shadow: 8px 8px 15px var(--neu-shadow-dark), 
+                -8px -8px 15px var(--neu-shadow-light);
+}
+
+.button-dark:hover {
+    transform: translateY(-3px); 
+    transition: all 0.5s ease;
+    box-shadow: inset 2px 2px 5px var(--neu-shadow-dark), 
+                inset -2px -2px 5px var(--neu-shadow-light);
+}
+
+.neu-button:hover {
+    transform: translateY(-3px); 
+    transition: all 0.5s ease;
+    box-shadow: inset 2px 2px 5px var(--neu-shadow-dark), 
+                inset -2px -2px 5px var(--neu-shadow-light);
+}
+
+.neu-input {
+    background-color: var(--background-color);
+    border: none;
+    border-radius: 10px;
+    box-shadow: inset 8px 8px 15px var(--neu-shadow-dark), 
+                inset -8px -8px 15px var(--neu-shadow-light);
+    color: var(--text-color);
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.neu-input:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 7px var(--neu-shadow-dark), 
+                inset -3px -3px 7px var(--neu-shadow-light)!important;
+}
+
+.neu-card {
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    background-color: var(--background-color); 
+    color: var(--text-color);
+    box-shadow: 5px 5px 10px var(--neu-shadow-dark),
+               -5px -5px 10px var(--neu-shadow-light);
+    font-size: 1.15rem!important;
+}
+
+.neu-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.3),
+                -4px -4px 4px rgba(255, 255, 255, 0.1);
+}
+
+.neu-card ul li a {
+    font-size: 1.15rem;
+}
+
+.card-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    margin-bottom: 20px; 
+}
+
+.card-row.single .neu-card,
+.card-row.double .neu-card,
+.card-row.triple .neu-card,
+.card-row.quad .neu-card {
+    flex: 1;
+    margin: 10px; 
+}
+
+.card-row.double .neu-card { flex-basis: calc(50% - 20px); }
+.card-row.triple .neu-card { flex-basis: calc(33.333% - 20px); }
+.card-row.quad .neu-card { flex-basis: calc(25% - 20px); }
+
+.neu-nav {
+    box-shadow: 3px 3px 6px var(--neu-shadow-dark),
+                -3px -3px 6px var(--neu-shadow-light); 
+    padding: 10px 8px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: linear-gradient(
+        to bottom right,
+        rgba(165, 165, 165, 0.6), 
+        rgba(200, 200, 200, 0.5) 50%, 
+        rgba(225, 225, 225, 0.4) 
+    );
+    backdrop-filter: blur(10px); 
+    color: var(--contrast-color); 
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.neu-nav .icon {
+    display: none;
+    font-size: 2rem;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.5s ease;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover { 
+    display: block;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--primary-color);
+    color: #ddd;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    background-color: #ddd;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    padding-top: 10px!important;
+    margin-top: 20px;
+    transition: opacity 0.5s ease;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block; 
+    opacity: 1;
+}
+
+.dropdown-content::before {
+    content: "";
+    position: absolute;
+    top: -10px; 
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent; 
+    border-bottom: 10px solid #ddd; 
+}
+
+.neu-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.neu-nav ul li {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 10px; 
+}
+
+.neu-nav ul li a {
+    color: var(--text-color);
+    font-size: 1.15em;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.5s ease, transform 0.5s ease;
+}
+
+.neu-nav .dropdown-content li a {
+    font-size: 1em;
+    color: #333;
+}
+
+.neu-nav ul li a:hover {
+    color: var(--tertiary-color);
+    transform: scale(1.1); 
+}
+
+.neu-nav-links.show {
+    display: flex;
+}
+
+.logo-img {
+    height: 100px;
+    width: auto;
+}
+
+.neu-form {
+    text-align: center;
+    padding: 20px;
+}
+
+.neu-form-card {
+    background-color: var(--background-color); 
+    box-shadow: 8px 8px 15px var(--neu-shadow-dark), 
+                -8px -8px 15px var(--neu-shadow-light);
+    border-radius: 10px;
+    padding: 20px;
+    color: #000; 
+    position: relative;
+}
+
+.neu-form-card p {
+    color: var(--text-color); 
+}
+
+.neu-form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--contrast-color), 
+                                var(--background-color));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.neu-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; 
+}
+
+.neu-tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px; 
+    box-shadow: 3px 3px 6px var(--neu-shadow-dark),
+                -3px -3px 6px var(--neu-shadow-light);
+}
+
+.neu-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; 
+    left: 50%; 
+    margin-left: -5px; 
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent; 
+}
+
+.neu-tooltip:hover .neu-tooltiptext {
+    visibility: visible;
+}
+
+.neu-footer {
+    background-color: var(--neu-shadow-dark); 
+    color: var(--neu-shadow-dark); 
+    text-align: center;
+    padding: 20px;
+    box-shadow: inset 3px 3px 7px var(--neu-shadow-dark), 
+                inset -3px -3px 7px var(--neu-shadow-light);
+    display: flex;
+    justify-content: space-around;
+}
+@media screen and (max-width: 768px) {
+    .neu-footer {
+        flex-direction: column;
+    }
+}
+
+.footer-column {
+    flex: 1;
+    padding: 20px;
+}
+.neu-footer p {
+    color: var(--contrast-color); 
+}
+
+.footer-links a {
+    margin-right: 15px;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.neu-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.neu-table th, .neu-table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.text-section {
+    padding: 40px 0px;
+}
+
+@media (max-width: 768px) {
+    .neu-nav .neu-nav-links {
+        display: block; 
+        opacity: 0; 
+        position: fixed;
+        top: -100%; 
+        left: 0;
+        right: 0;
+        transition: top 0.5s ease, opacity 0.5s ease; 
+        background-color: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px); 
+        color: var(--contrast-color);
+        text-align: center;
+        padding: 20px 30px;
+        flex-direction: column;
+    }
+
+    .neu-nav .neu-nav-links.show {
+        top: 0; 
+        opacity: 1; 
+    }
+
+    .neu-nav ul li {
+        display: block;
+        margin-right: 0;
+    }
+
+    .neu-nav > ul > li > a {
+        padding: 10px;
+    }
+
+    .neu-nav .icon {
+        display: block;
+    }
+
+    .neu-nav-links > li > a {
+        color: var(--contrast-color);
+    }
+
+    .dropdown-content li a {
+        color: #333;
+        padding: 8px 12px!important;
+    }
+
+    .card-row .neu-card {
+        flex-basis: 100%;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu {
+        display: none;
+    }
+
+    .dropdown-menu.show-dropdown {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    .logo-img {
+        margin-left: 20px;
+    }
+}
+
+.neu-accordion-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    box-shadow: 3px 3px 6px var(--neu-shadow-dark),
+                -3px -3px 6px var(--neu-shadow-light);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.neu-accordion-button:hover {
+    background-color: var(--neu-highlight);
+    color: var(--neu-shadow-dark);
+}
+
+.neu-accordion-content {
+    padding: 0 18px;
+    border-radius: 5px;
+    background-color: var(--background-color);
+    overflow: hidden;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+    margin-bottom: 10px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease;
+}
+
+.neu-accordion-content p {
+    color: var(--text-color);
+}
+
+.neu-accordion-button.active + .neu-accordion-content {
+    max-height: 150px; 
+    opacity: 1; 
+}
+
+.neu-checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+    text-align: left;
+}
+  
+.neu-checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.neu-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 4px;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+}
+  
+.neu-checkbox-container:hover input ~ .neu-checkmark {
+    background-color: var(--neu-shadow-light);
+}
+  
+.neu-checkbox-container input:checked ~ .neu-checkmark {
+    background-color: var(--secondary-color);
+}
+  
+.neu-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.neu-checkbox-container input:checked ~ .neu-checkmark:after {
+    display: block;
+}
+  
+.neu-checkbox-container .neu-checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.neu-table-responsive {
+    overflow-x: auto;
+    border-radius: 5px;
+    box-shadow: 3px -3px 6px var(--neu-shadow-dark),
+                -3px 3px 6px var(--neu-shadow-light);
+}
+
+.neu-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.neu-table th, .neu-table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.neu-table tbody tr td {
+    color: #333;
+}
+
+.neu-table thead {
+    background-color: #333;
+    color: white;
+}
+
+.neu-table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; 
+}
+
+.neu-form input[type="text"], .neu-form input[type="email"], .neu-form textarea {
+    background-color: var(--background-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: inset 8px 8px 15px var(--neu-shadow-dark), 
+                inset -8px -8px 15px var(--neu-shadow-light);
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.neu-form select {
+    background-color: var(--background-color);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.neu-form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.neu-form .form-group .neu-input {
+    background-color: var(--background-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: inset 8px 8px 15px var(--neu-shadow-dark), 
+                inset -8px -8px 15px var(--neu-shadow-light);
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.neu-form label {
+    color: var(--text-color);
+}
+
+.neu-radio-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+    text-align: left;
+}
+
+.neu-radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.neu-radio-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #333;
+    border-radius: 50%;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+}
+
+.neu-radio-container:hover input ~ .neu-radio-checkmark {
+    background-color: var(--neu-shadow-light);
+}
+
+.neu-radio-container input:checked ~ .neu-radio-checkmark {
+    background-color: var(--secondary-color);
+}
+
+.neu-radio-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.neu-radio-container input:checked ~ .neu-radio-checkmark:after {
+    display: block;
+    left: 9px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+}
+
+.neu-checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.neu-checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.neu-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #333;
+    border-radius: 4px;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+}
+
+a {
+    color: var(--primary-color);
+    transition: color 0.5s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+.neu-checkbox-container input[type="checkbox"]:checked ~ .neu-checkmark {
+    background-color: var(--primary-color);
+    transition: background-color 0.2s ease;
+}
+
+.neu-raise-hover {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.neu-raise-hover:hover {
+    transform: translateY(-5px); 
+    box-shadow: 10px 10px 20px var(--neu-shadow-dark),
+                -10px -10px 20px var(--neu-shadow-light);
+}
+
+.neu-card-gradient-top, .neu-card-gradient-dark, .neu-card-gradient-animated {
+    position: relative;
+}
+
+.neu-card-gradient-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--contrast-color), 
+                                var(--background-color));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.neu-card-gradient-dark::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--tertiary-color),
+                                var(--secondary-color), 
+                                var(--background-color));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.neu-card-gradient-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(to right, 
+                                var(--secondary-color), 
+                                var(--secondary-color), 
+                                var(--contrast-color),
+                                var(--primary-color), 
+                                var(--secondary-color),
+                                var(--secondary-color));
+    background-size: 500% 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    animation: moveGradient 4s linear infinite;
+}
+
+.neu-card-gradient-dark-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--primary-color), 
+                                var(--tertiary-color),
+                                var(--tertiary-color));
+    background-size: 400% 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    animation: moveGradient 4s linear infinite;
+}
+
+@keyframes moveGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.neu-card h2 {
+    color: var(--secondary-color);
+}
+
+.neu-card p {
+    color: var(--text-color);
+}
+
+.neu-card h2 {
+    color: var(--tertiary-color);
+}
+
+.neu-card-dark {
+    background-color: #e0e0e0; 
+    color: #333;
+    box-shadow: 10px 10px 20px var(--neu-shadow-dark),
+                -10px -10px 20px var(--neu-shadow-light);
+}
+
+.neu-card-dark h2 {
+    color: var(--tertiary-color);
+}
+
+.neu-card-dark p {
+    color: var(--neu-shadow-dark);
+}
+
+.neu-card-dark .neu-button {
+    background-color: var(--primary-color)!important;
+    color: var(--neu-shadow-light)!important;
+    font-weight: 700!important;
+    font-size: 1.2rem!important;
+    box-shadow: 5px 5px 10px var(--neu-shadow-dark),
+                -5px -5px 10px var(--neu-shadow-light);
+}
+
+.neu-card-dark .neu-button:hover {
+    background-color: var(--primary-color)!important;
+    color: var(--neu-shadow-light)!important;
+    box-shadow: inset 5px 5px 10px var(--neu-shadow-dark),
+                inset -5px -5px 10px var(--neu-shadow-light);
+}
+
+.neu-button-main {
+    background-color: var(--secondary-color)!important;
+    color: var(--neu-shadow-light)!important;
+    font-weight: 700!important;
+    font-size: 1.2rem!important;
+    box-shadow: 5px 5px 10px var(--neu-shadow-dark),
+                -5px -5px 10px var(--neu-shadow-light);
+}
+
+.neu-button-main:hover {
+    background-color: var(--secondary-color)!important;
+    color: var(--neu-shadow-light)!important;
+    box-shadow: inset 2px 2px 5px var(--neu-shadow-dark),
+                inset -2px -2px 5px var(--neu-shadow-light);
+}
+
+.gradient-stripe {
+    height: 5px; 
+    width: 75%; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-dark), 
+                                var(--tertiary-color),
+                                var(--secondary-color), 
+                                var(--secondary-light));
+    margin: 10px auto; 
+    border-radius: 5px; 
+}
+
+.gradient-stripe-dark {
+    height: 5px; 
+    width: 75%; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--primary-color), 
+                                var(--tertiary-color));
+    margin: 10px auto; 
+    border-radius: 5px; 
+}
+
+.gradient-stripe-anim {
+    height: 5px; 
+    width: 75%; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--secondary-color),
+                                var(--contrast-color), 
+                                var(--primary-color),
+                                var(--primary-color),
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--tertiary-color));
+    margin: 10px auto; 
+    border-radius: 5px; 
+}
+
+.gradient-stripe-anim-dark {
+    height: 5px; 
+    width: 75%; 
+    background: linear-gradient(to right, 
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--tertiary-color), 
+                                var(--secondary-color),
+                                var(--secondary-color),
+                                var(--secondary-color),
+                                var(--primary-color), 
+                                var(--primary-color), 
+                                var(--tertiary-color),
+                                var(--tertiary-color), 
+                                var(--tertiary-color));
+    margin: 10px auto; 
+    border-radius: 5px; 
+}
+
+.gradient-stripe-anim, .gradient-stripe-anim-dark {
+    background-size: 500% 100%;
+    animation: moveGradient 5s linear infinite; 
+}
+
+#logo {
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background-color);
+    border-radius: 34px;
+    box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    box-shadow: 3px 3px 6px var(--neu-shadow-dark),
+                -3px -3px 6px var(--neu-shadow-light);
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--secondary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.toggle-dark-mode {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    height: 55px;
+    width: 82px;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    box-shadow: inset 8px 8px 15px var(--neu-shadow-dark), 
+                inset -8px -8px 15px var(--neu-shadow-light);
+}
+
+.neu-button {
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.neu-button.button-clicked {
+    transform: translateY(1px); 
+    filter: brightness(115%); 
+}
+
+.left-form-label {
+    text-align: center;
+    padding: 5px;
+}
+
+@media (min-width:769px) {
+    .left-form-label {
+        text-align: right;
+    }
+
+    .right-form-field {
+        padding-right: 25%;
+    }
+}
+
+.error {
+    position: relative;
+    color:var(--secondary-color);
+}
+
+@media (min-width:769px) {
+    .error {
+        position: absolute;
+    }    
+}

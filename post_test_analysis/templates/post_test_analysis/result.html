@@ -1,0 +1,250 @@
+{% extends "post_test_analysis/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Post-Test Analysis Results{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 700px!important;">
+    <h1>Post-Test Analysis Results</h1>
+    
+    <div class="card-row single">
+        <div class="neu-card">
+            <h2>Overview</h2>
+            <div class="gradient-stripe"></div>
+            <div class="main container">
+                <p><strong>Test Duration:</strong> {{ results.test_duration }} days</p>
+            </div>
+            <div class="main container">
+                <div class="column left-column">       
+                    <p><strong>Control Visitors:</strong> {{ results.control_visitors }}</p>
+                    <p><strong>Control Conversions:</strong> {{ results.control_conversions }}</p>         
+                </div>
+                <div class="column right-column">     
+                    <p><strong>Variant Visitors:</strong> {{ results.variant_visitors }}</p>
+                    <p><strong>Variant Conversions:</strong> {{ results.variant_conversions }}</p>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-row double">
+        <div class="neu-card">
+            <h2>Basic Metrics</h2>
+            <div class="gradient-stripe"></div>
+            <p><strong>Control Conversion Rate:</strong> <span id="controlRate" data-rate="{{ results.basic_metrics.control_conversion_rate }}"></span>%</p>
+            <p><strong>Variant Conversion Rate:</strong> <span id="variantRate" data-rate="{{ results.basic_metrics.variant_conversion_rate }}"></span>%</p>
+            <p><strong>Conversion Rate Lift:</strong> <span id="rateLift" data-lift="{{ results.basic_metrics.conversion_rate_lift }}"></span>%</p>
+            <p><strong>Effect Size (Cohen's d):</strong> {{ results.effect_size|floatformat:3 }}</p>
+        </div>
+        <div class="neu-card">
+            <h2>Statistical Results</h2>
+            <div class="gradient-stripe"></div>
+            <p><strong>Z-Score:</strong> <span id="zScore" data-score="{{ results.stats_results.z_score }}"></span></p>
+            <p><strong>P-Value:</strong> <span id="pValue" data-value="{{ results.stats_results.p_value }}"></span></p>
+            <p><strong>Is Significant:</strong> {{ results.stats_results.is_significant }}</p>
+            <p><strong>Power:</strong> {{ results.stats_results.power }}</p>
+        </div>
+    </div>
+
+    <div class="container chart-container neu-card">
+        <h2>Conversion Rate Comparison</h2>
+        <canvas id="conversionRateChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="container chart-container neu-card">
+        <h2>Conversion Range</h2>
+        <canvas id="ciLineChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="container chart-container neu-card">
+        <h2>Distribution Chart</h2>
+        <canvas id="normalDistributionChart" width="600" height="400"></canvas>
+    </div>
+</div>
+<style>
+    @media (min-width:769px) {
+        .chart-container {
+            padding: 20px 130px 60px;
+        }
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@1.9.4/dist/jstat.min.js"></script>
+<script>
+    var ctx = document.getElementById('conversionRateChart').getContext('2d');
+    var controlRate = {{ results.basic_metrics.control_conversion_rate|floatformat:4 }};
+    var variantRate = {{ results.basic_metrics.variant_conversion_rate|floatformat:4 }};
+    
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Control', 'Variant'],
+            datasets: [{
+                label: 'Conversion Rate',
+                data: [controlRate, variantRate],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(0, 23, 57, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(0, 23, 49, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return (value * 100).toFixed(2) + '%';  
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+<script>
+    var ctxLine = document.getElementById('ciLineChart').getContext('2d');
+    var controlCI = [{{ results.confidence_intervals.ci_control.0|floatformat:4 }}, {{ results.confidence_intervals.ci_control.1|floatformat:4 }}];
+    var variantCI = [{{ results.confidence_intervals.ci_variant.0|floatformat:4 }}, {{ results.confidence_intervals.ci_variant.1|floatformat:4 }}];
+
+    var lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['Lower Bound', 'Upper Bound'],
+            datasets: [{
+                label: 'Control Group',
+                data: controlCI,
+                borderColor: 'rgba(54, 162, 235, 0.5)',
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                fill: false
+            }, {
+                label: 'Variant Group',
+                data: variantCI,
+                borderColor: 'rgba(0, 23, 49, 0.5)',
+                backgroundColor: 'rgba(0, 23, 57, 0.5)',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return (value * 100).toFixed(2) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var controlRate = document.getElementById('controlRate');
+        var variantRate = document.getElementById('variantRate');
+        var rateLift = document.getElementById('rateLift');
+
+        var controlRateValue = parseFloat(controlRate.getAttribute('data-rate')) * 100;
+        controlRate.textContent = controlRateValue.toFixed(3);  
+
+        var variantRateValue = parseFloat(variantRate.getAttribute('data-rate')) * 100;
+        variantRate.textContent = variantRateValue.toFixed(3);  
+
+        var rateLiftValue = parseFloat(rateLift.getAttribute('data-lift'));
+        rateLift.textContent = rateLiftValue.toFixed(3); 
+
+        var zScoreElement = document.getElementById('zScore');
+        var pValueElement = document.getElementById('pValue');
+
+        var zScore = parseFloat(zScoreElement.getAttribute('data-score'));
+        zScoreElement.textContent = zScore.toFixed(3); 
+
+        var pValue = parseFloat(pValueElement.getAttribute('data-value'));
+        if (pValue < 0.0001) {
+            pValueElement.textContent = '< 0.0001';
+        } else {
+            pValueElement.textContent = pValue.toFixed(4);  
+        }
+        
+        var ctx = document.getElementById('normalDistributionChart').getContext('2d');
+        var zScore = parseFloat("{{ results.stats_results.z_score|floatformat:2 }}");
+
+        function normalPdf(x, mean, sigma) {
+            var scaleFactor = 1 / (sigma * Math.sqrt(2 * Math.PI));
+            return scaleFactor * Math.exp(-Math.pow(x - mean, 2) / (2 * Math.pow(sigma, 2)));
+        }
+
+        var data = [];
+        for (var i = -5; i <= 5; i += 0.1) {
+            data.push({x: i, y: normalPdf(i, 0, 1)});
+        }
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Normal Distribution',
+                    data: data,
+                    fill: false,
+                    borderColor: 'dimgrey',
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var xLabel = tooltipItem.xLabel.toFixed(2);
+                                var yLabel = tooltipItem.yLabel.toFixed(4);
+                                return 'Z-score: ' + xLabel + ', Probability Density: ' + yLabel;
+                            }
+                        }
+                    }
+                }
+            },
+            plugins: [{
+                afterDraw: function(chart) {
+                    if (chart.canvas.id !== 'normalDistributionChart') return;
+
+                    var ctx = chart.ctx;
+                    var xAxis = chart.scales.x;
+                    var yAxis = chart.scales.y;
+
+                    var x = xAxis.getPixelForValue(zScore);
+                    var yTop = yAxis.getPixelForValue(normalPdf(zScore, 0, 1));
+                    var yBottom = yAxis.getPixelForValue(0);
+
+                    ctx.save();
+                    ctx.strokeStyle = 'darkblue';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(x, yBottom);
+                    ctx.lineTo(x, yTop);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }]
+        });
+    });
+</script>
+
+{% endblock %}

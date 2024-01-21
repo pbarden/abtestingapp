@@ -1,0 +1,68 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Post-Test Analysis{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/darkMode.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+    <style>
+        * {
+          font-family: 'Nunito Sans', serif!important;
+        }
+        @media (max-width: 768px) {
+            .dropdown-content li a {
+                color: #333!important;
+            }
+            .dropdown-content li a:hover {
+                color: white!important;
+            }
+        }
+        .dropdown-content li a {
+            color: #333!important;
+        }
+        .dropdown-content li a:hover {
+            color: white!important;
+        }
+      </style>
+</head>
+<body>
+    <nav class="neu-nav" id="primary-nav">
+        <a href="#" class="logo"><img class="logo-img" id="logo" src="/static/images/__paul.png"></a>
+
+        <ul class="neu-nav-links" id="navLinks">
+            <li class="dropdown" onmouseover="openDropdown(this)" onmouseout="closeDropdown(this)">
+                <a href="javascript:void(0);" class="dropdown-toggle">Tools</a>
+                <ul class="dropdown-content dropdown-menu">
+                    <li><a style="color: #333;" href="/pre-test/">Pre-test Analysis</a></li>
+                    <li><a style="color: #333;" href="/post-test/">Post-test Analysis</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/">Admin</a></li>
+        </ul>
+
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            &#9776; 
+        </a>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <footer class="neu-footer">
+        <div class="footer-column">
+        </div>   
+        <div class="footer-column">  
+            <div class="footer-links">
+                <p>Conversion Optimization @ WGU</p>
+                <p>For internal use only</p>
+            </div>
+        </div>       
+    </footer>    
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
