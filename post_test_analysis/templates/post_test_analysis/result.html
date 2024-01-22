@@ -107,43 +107,76 @@
         }
     });
 </script>
-<script>
-    var ctxLine = document.getElementById('ciLineChart').getContext('2d');
-    var controlCI = [{{ results.confidence_intervals.ci_control.0|floatformat:4 }}, {{ results.confidence_intervals.ci_control.1|floatformat:4 }}];
-    var variantCI = [{{ results.confidence_intervals.ci_variant.0|floatformat:4 }}, {{ results.confidence_intervals.ci_variant.1|floatformat:4 }}];
 
-    var lineChart = new Chart(ctxLine, {
-        type: 'line',
-        data: {
-            labels: ['Lower Bound', 'Upper Bound'],
-            datasets: [{
-                label: 'Control Group',
-                data: controlCI,
-                borderColor: 'rgba(54, 162, 235, 0.5)',
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                fill: false
-            }, {
-                label: 'Variant Group',
-                data: variantCI,
-                borderColor: 'rgba(0, 23, 49, 0.5)',
-                backgroundColor: 'rgba(0, 23, 57, 0.5)',
-                fill: false
-            }]
+<script>
+var ctxLine = document.getElementById('ciLineChart').getContext('2d');
+var controlCI = [{{ results.confidence_intervals.ci_control.0|floatformat:4 }}, {{ results.confidence_intervals.ci_control.1|floatformat:4 }}];
+var variantCI = [{{ results.confidence_intervals.ci_variant.0|floatformat:4 }}, {{ results.confidence_intervals.ci_variant.1|floatformat:4 }}];
+
+var lineChart = new Chart(ctxLine, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Control',
+            data: [
+                {x: controlCI[0], y: 'Control'},
+                {x: controlCI[1], y: 'Control'}
+            ],
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderWidth: 3,
+            fill: false
+        }, {
+            label: 'Variant',
+            data: [
+                {x: variantCI[0], y: 'Variant'},
+                {x: variantCI[1], y: 'Variant'}
+            ],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderWidth: 3,
+            fill: false
+        }]
+    },
+    options: {
+        indexAxis: 'y', // Chart.js 3.x syntax for horizontal chart
+        scales: {
+            x: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value, index, values) {
+                        return value.toFixed(2) + '%'; // Modify to display percentages
+                    }
+                }
+            },
+            y: {
+                type: 'category',
+                labels: ['', 'Control', 'Variant', '']
+            }
         },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value, index, values) {
-                            return (value * 100).toFixed(2) + '%';
+        plugins: {
+            legend: {
+                display: true
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
                         }
+                        if (context.parsed.x !== null) {
+                            label += context.parsed.x.toFixed(2) + '%';
+                        }
+                        return label;
                     }
                 }
             }
         }
-    });
+    }
+});
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var controlRate = document.getElementById('controlRate');
