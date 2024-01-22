@@ -374,12 +374,10 @@ a:hover {
 }
 
 .neu-footer {
-    background-color: var(--neu-shadow-dark); 
+    background-color: var(--tertiary-dark); 
     color: var(--neu-shadow-dark); 
     text-align: center;
     padding: 20px;
-    box-shadow: inset 3px 3px 7px var(--neu-shadow-dark), 
-                inset -3px -3px 7px var(--neu-shadow-light);
     display: flex;
     justify-content: space-around;
 }

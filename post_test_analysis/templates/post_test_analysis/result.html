@@ -74,7 +74,7 @@
     var ctx = document.getElementById('conversionRateChart').getContext('2d');
     var controlRate = {{ results.basic_metrics.control_conversion_rate|floatformat:4 }};
     var variantRate = {{ results.basic_metrics.variant_conversion_rate|floatformat:4 }};
-    
+
     var chart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -103,10 +103,26 @@
                         }
                     }
                 }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            var value = context.raw;
+                            label += (value * 100).toFixed(2) + '%';
+                            return label;
+                        }
+                    }
+                }
             }
         }
     });
 </script>
+
 
 <script>
 var ctxLine = document.getElementById('ciLineChart').getContext('2d');
@@ -145,7 +161,8 @@ var lineChart = new Chart(ctxLine, {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value, index, values) {
-                        return value.toFixed(2) + '%'; // Modify to display percentages
+                        adjustedValue = value * 100;
+                        return adjustedValue.toFixed(2) + '%'; // Modify to display percentages
                     }
                 }
             },
@@ -166,7 +183,8 @@ var lineChart = new Chart(ctxLine, {
                             label += ': ';
                         }
                         if (context.parsed.x !== null) {
-                            label += context.parsed.x.toFixed(2) + '%';
+                            adjustedLblValue = context.parsed.x * 100;
+                            label += adjustedLblValue.toFixed(3) + '%';
                         }
                         return label;
                     }
